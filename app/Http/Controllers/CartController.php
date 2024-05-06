@@ -7,6 +7,7 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 use App\Models\Product;
 use App\Models\Country;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 
 class CartController extends Controller
@@ -147,6 +148,32 @@ class CartController extends Controller
         // if user is logged in then redirect checkout page
         return view('front.checkout',['countries'=>$countries]);
 
+     }
+
+     public function processcheckout(Request $request){
+    //   step-1  apply validator
+         $validator=Validator::make(request()->all(),[
+               'first_name'=>'required|min:3',
+               'last_name'=>'required',
+               'email'=>'required|email',
+               'country'=>'required',
+               'mobile'=>'required',
+               'address'=>'required|min:10',
+               'city'=>'required',
+               'state'=>'required',
+               'zip'=>'required'
+       ]);
+       if($validator->fails()){
+           return response()->json([
+            'status'=>false,
+            'message'=>'please fill the currect value',
+            'errors'=>$validator->errors()
+           ]);
+       }
+
+        //  step-2  save customer address
+        
+        
      }
 
     }

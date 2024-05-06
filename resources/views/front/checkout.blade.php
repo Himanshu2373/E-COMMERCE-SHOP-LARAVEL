@@ -16,6 +16,7 @@
 
 <section class="section-9 pt-4">
     <div class="container">
+        <form action="" id="orderForm" name="orderForm" method="post">
         <div class="row">
             <div class="col-md-8">
                 <div class="sub-title">
@@ -28,17 +29,20 @@
                             <div class="col-md-12">
                                 <div class="mb-3">
                                     <input type="text" name="first_name" id="first_name" class="form-control" placeholder="First Name">
+                                    <p></p>
                                 </div>            
                             </div>
                             <div class="col-md-12">
                                 <div class="mb-3">
                                     <input type="text" name="last_name" id="last_name" class="form-control" placeholder="Last Name">
+                                    <p></p>
                                 </div>            
                             </div>
                             
                             <div class="col-md-12">
                                 <div class="mb-3">
                                     <input type="text" name="email" id="email" class="form-control" placeholder="Email">
+                                    <p></p>
                                 </div>            
                             </div>
 
@@ -52,12 +56,14 @@
                                            @endforeach
                                            @endif
                                     </select>
+                                    <p></p>
                                 </div>            
                             </div>
 
                             <div class="col-md-12">
                                 <div class="mb-3">
                                     <textarea name="address" id="address" cols="30" rows="3" placeholder="Address" class="form-control"></textarea>
+                                    <p></p>
                                 </div>            
                             </div>
 
@@ -70,24 +76,28 @@
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <input type="text" name="city" id="city" class="form-control" placeholder="City">
+                                    <p></p>
                                 </div>            
                             </div>
 
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <input type="text" name="state" id="state" class="form-control" placeholder="State">
+                                    <p></p>
                                 </div>            
                             </div>
                             
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <input type="text" name="zip" id="zip" class="form-control" placeholder="Zip">
+                                    <p></p>
                                 </div>            
                             </div>
 
                             <div class="col-md-12">
                                 <div class="mb-3">
                                     <input type="text" name="mobile" id="mobile" class="form-control" placeholder="Mobile No.">
+                                    <p></p>
                                 </div>            
                             </div>
                             
@@ -166,7 +176,8 @@
                     </div>    
                     
                     <div class="pt-4">
-                        <a href="#" class="btn-dark btn btn-block w-100">Pay Now</a>
+                        {{-- <a href="#" >Pay Now</a> --}}
+                        <button type="submit" class="btn-dark btn btn-block w-100">Pay Now</button>
                     </div>
                 </div>
 
@@ -175,6 +186,7 @@
                 
             </div>
         </div>
+    </form>
     </div>
 </section>
 
@@ -187,13 +199,120 @@
         if($(this).is(":checked")== true){
             $("#card_payment_form").addClass("d-none");
         }
-    })
+    });
 
     $("#payment_method_two").click(function(){
         if($(this).is(":checked")== true){
             $("#card_payment_form").removeClass("d-none");
         }
-    })
+    });
+
+    $("#orderForm").submit(function(event){
+        event.preventDefault();
+
+        $.ajax({
+            url:'{{route("front.processcheckout")}}',
+            type:'post',
+            data:$(this).serializeArray(),
+            dataType:'json',
+            success:function(response){
+                var errors=response.errors
+                 // first name
+                if(errors.first_name){
+                    $("#first_name").addClass('is-invalid').siblings("p")
+                    .addClass('invalid-feedback').html(errors.first_name);
+                   }
+                else{
+                    $("#first_name").removeClass('is-invalid').siblings("p")
+                    .removeClass('invalid-feedback').html("");
+                }
+
+                // last name
+                if(errors.last_name){
+                    $("#last_name").addClass('is-invalid').siblings("p")
+                    .addClass('invalid-feedback').html(errors.last_name);
+                   }
+                else{
+                    $("#last_name").removeClass('is-invalid').siblings("p")
+                    .removeClass('invalid-feedback').html("");
+                }
+
+                // email
+                if(errors.email){
+                    $("#email").addClass('is-invalid').siblings("p")
+                    .addClass('invalid-feedback').html(errors.email);
+                   }
+                else{
+                    $("#email").removeClass('is-invalid').siblings("p")
+                    .removeClass('invalid-feedback').html("");
+                }
+
+                // country
+                if(errors.country){
+                    $("#country").addClass('is-invalid').siblings("p")
+                    .addClass('invalid-feedback').html(errors.country);
+                   }
+                else{
+                    $("#country").removeClass('is-invalid').siblings("p")
+                    .removeClass('invalid-feedback').html("");
+                }
+
+                // address
+                if(errors.address){
+                    $("#address").addClass('is-invalid').siblings("p")
+                    .addClass('invalid-feedback').html(errors.address);
+                   }
+                else{
+                    $("#address").removeClass('is-invalid').siblings("p")
+                    .removeClass('invalid-feedback').html("");
+                }
+
+                // state
+                if(errors.state){
+                    $("#state").addClass('is-invalid').siblings("p")
+                    .addClass('invalid-feedback').html(errors.state);
+                   }
+                else{
+                    $("#state").removeClass('is-invalid').siblings("p")
+                    .removeClass('invalid-feedback').html("");
+                }
+
+                //city
+
+                if(errors.city){
+                    $("#city").addClass('is-invalid').siblings("p")
+                    .addClass('invalid-feedback').html(errors.city);
+                   }
+                else{
+                    $("#city").removeClass('is-invalid').siblings("p")
+                    .removeClass('invalid-feedback').html("");
+                }
+
+                 //zip
+
+                 if(errors.zip){
+                    $("#zip").addClass('is-invalid').siblings("p")
+                    .addClass('invalid-feedback').html(errors.zip);
+                   }
+                else{
+                    $("#zip").removeClass('is-invalid').siblings("p")
+                    .removeClass('invalid-feedback').html("");
+                }
+
+                //mobile
+                if(errors.mobile){
+                    $("#mobile").addClass('is-invalid').siblings("p")
+                    .addClass('invalid-feedback').html(errors.mobile);
+                   }
+                else{
+                    $("#mobile").removeClass('is-invalid').siblings("p")
+                    .removeClass('invalid-feedback').html("");
+                }
+
+            
+            }
+        });
+    });
 </script>
 
 @endsection
