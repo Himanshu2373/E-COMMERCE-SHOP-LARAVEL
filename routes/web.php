@@ -12,13 +12,16 @@ use App\Http\Controllers\Admin\ProductSubCategoryController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\ProductImageController;
+use App\Http\Controllers\Admin\ShippingController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CartController;
+
 use App\Http\Controllers\AuthController;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -43,6 +46,7 @@ Route::post('/cart-update',[CartController::class,'cartUpdate'])->name('front.ca
 Route::post('/cart-delete',[CartController::class,'cartDelete'])->name('front.delete');
 Route::get('/checkout',[CartController::class,'checkout'])->name('front.checkout');
 Route::post('/process-checkout',[CartController::class,'processcheckout'])->name('front.processcheckout');
+Route::get('/thankyou/{orderId}',[CartController::class,'thankyou'])->name('front.thankyou');
 
 // Route::get('/login',[AuthController::class,'login'])->name('account.login');
 // Route::get('/register',[AuthController::class,'register'])->name('account.register');
@@ -140,6 +144,11 @@ Route::group(['prefix'=>'admin'],function(){
        Route::put('/size/{size}',[SizeController::class,'update'])->name('size.update');
        Route::delete('/size/{size}',[SizeController::class,'destroy'])->name('size.delete');
      
+       //shipping route
+       Route::get('/shipping/create',[ShippingController::class,'create'])->name('shipping.create');
+       Route::post('/shipping',[ShippingController::class,'store'])->name('shipping.store');
+
+
        //    temp-image.create
         Route::post('/upload-temp-image',[TempImagesController::class,'create'])->name('temp-images.create');
 
