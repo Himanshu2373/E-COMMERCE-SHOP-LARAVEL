@@ -47,6 +47,7 @@ Route::post('/cart-delete',[CartController::class,'cartDelete'])->name('front.de
 Route::get('/checkout',[CartController::class,'checkout'])->name('front.checkout');
 Route::post('/process-checkout',[CartController::class,'processcheckout'])->name('front.processcheckout');
 Route::get('/thankyou/{orderId}',[CartController::class,'thankyou'])->name('front.thankyou');
+Route::post('/get-order-details',[CartController::class,'getOrderDetails'])->name('front.getOrderDetails');
 
 // Route::get('/login',[AuthController::class,'login'])->name('account.login');
 // Route::get('/register',[AuthController::class,'register'])->name('account.register');
