@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\ProductImageController;
 use App\Http\Controllers\Admin\ShippingController;
+use App\Http\Controllers\Admin\DiscountCouponController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CartController;
@@ -74,7 +75,7 @@ Route::group(['prefix'=>'accounts'],function(){
     });
 });
 
-Route::get('/admin/login',[AdminLogController::class,'index'])->name('admin.login');
+//Route::get('/admin/login',[AdminLogController::class,'index'])->name('admin.login');
 
 Route::group(['prefix'=>'admin'],function(){
     Route::group(['middleware'=>'admin.guest'],function(){
@@ -152,6 +153,8 @@ Route::group(['prefix'=>'admin'],function(){
        Route::put('/shipping/{id}',[ShippingController::class,'update'])->name('shipping.update');
        Route::delete('/shipping/{id}',[ShippingController::class,'destroy'])->name('shipping.delete');
 
+       //coupon code route
+       Route::get('/coupon/create',[DiscountCouponController::class,'create'])->name('coupon.create');
 
 
        //    temp-image.create
